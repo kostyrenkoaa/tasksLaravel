@@ -2,43 +2,48 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property integer id
+ * @property string name
+ * @property string email
+ * @property string email_verified_at
+ * @property string password
+ * @property string remember_token
+ */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use Notifiable;
+
+    const TABLE_NAME = 'users';
+
+    const FIELD_ID = 'id';
+    const FIELD_NAME = 'name';
+    const FIELD_EMAIL = 'email';
+    const FIELD_EMAIL_VERIFIED_AT = 'email_verified_at';
+    const FIELD_PASSWORD = 'password';
+    const FIELD_REMEMBER_TOKEN = 'remember_token';
+
+    protected $table = self::TABLE_NAME;
+
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that should be hidden for arrays.
      *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        self::FIELD_PASSWORD, self::FIELD_REMEMBER_TOKEN,
     ];
 
     /**
-     * The attributes that should be cast.
+     * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        self::FIELD_EMAIL_VERIFIED_AT => 'datetime',
     ];
 }
